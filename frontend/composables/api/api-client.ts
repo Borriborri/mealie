@@ -1,5 +1,4 @@
 import type { AxiosInstance, AxiosResponse, AxiosRequestConfig } from "axios";
-import type { Composer } from "vue-i18n";
 import type { ApiRequestInstance, RequestResponse } from "~/lib/api/types/non-generated";
 import { AdminAPI, PublicApi, UserApi } from "~/lib/api";
 import { PublicExploreApi } from "~/lib/api/client-public";
@@ -53,34 +52,31 @@ function getRequests(axiosInstance: AxiosInstance): ApiRequestInstance {
   };
 }
 
-export const useRequests = function (i18n?: Composer): ApiRequestInstance {
+export const useRequests = function (): ApiRequestInstance {
+  const i18n = useI18n();
   const { $axios } = useNuxtApp();
-  if (!i18n) {
-    // Only works in a setup block
-    i18n = useI18n();
-  }
 
   $axios.defaults.headers.common["Accept-Language"] = i18n.locale.value;
 
   return getRequests($axios);
 };
 
-export const useAdminApi = function (i18n?: Composer): AdminAPI {
-  const requests = useRequests(i18n);
+export const useAdminApi = function (): AdminAPI {
+  const requests = useRequests();
   return new AdminAPI(requests);
 };
 
-export const useUserApi = function (i18n?: Composer): UserApi {
-  const requests = useRequests(i18n);
+export const useUserApi = function (): UserApi {
+  const requests = useRequests();
   return new UserApi(requests);
 };
 
-export const usePublicApi = function (i18n?: Composer): PublicApi {
-  const requests = useRequests(i18n);
+export const usePublicApi = function (): PublicApi {
+  const requests = useRequests();
   return new PublicApi(requests);
 };
 
-export const usePublicExploreApi = function (groupSlug: string, i18n?: Composer): PublicExploreApi {
-  const requests = useRequests(i18n);
+export const usePublicExploreApi = function (groupSlug: string): PublicExploreApi {
+  const requests = useRequests();
   return new PublicExploreApi(requests, groupSlug);
 };

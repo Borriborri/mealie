@@ -1,4 +1,3 @@
-import type { Composer } from "vue-i18n";
 import { useReadOnlyStore } from "../partials/use-store-factory";
 import { useRequests } from "../api/api-client";
 import type { UserSummary } from "~/lib/api/types/user";
@@ -12,8 +11,8 @@ class GroupUserAPIReadOnly extends BaseCRUDAPIReadOnly<UserSummary> {
   itemRoute = (idOrUsername: string | number) => `/groups/members/${idOrUsername}`;
 }
 
-export const useUserStore = function (i18n?: Composer) {
-  const requests = useRequests(i18n);
+export const useUserStore = function () {
+  const requests = useRequests();
   const api = new GroupUserAPIReadOnly(requests);
 
   return useReadOnlyStore<UserSummary>(store, loading, api, { orderBy: "full_name" });

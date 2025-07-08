@@ -1,4 +1,3 @@
-import type { Composer } from "vue-i18n";
 import { useData, useStore } from "../partials/use-store-factory";
 import type { MultiPurposeLabelOut } from "~/lib/api/types/labels";
 import { useUserApi } from "~/composables/api";
@@ -15,7 +14,7 @@ export const useLabelData = function () {
   });
 };
 
-export const useLabelStore = function (i18n?: Composer) {
-  const api = useUserApi(i18n);
+export const useLabelStore = function () {
+  const api = useUserApi();
   return useStore<MultiPurposeLabelOut>(store, loading, api.multiPurposeLabels);
 };
